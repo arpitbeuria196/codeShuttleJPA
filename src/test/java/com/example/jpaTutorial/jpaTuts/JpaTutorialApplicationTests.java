@@ -5,6 +5,9 @@ import com.example.jpaTutorial.jpaTuts.repositories.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -51,9 +54,13 @@ class JpaTutorialApplicationTests {
 	@Test
 	void getRepository()
 	{
-		List<ProductEntity> entities =
-				productRepository
-						.findBycreatedAtAfter(LocalDateTime.of(2024,1,1,0,0,0));
+//		List<ProductEntity> entities =
+//				productRepository
+//						.findBycreatedAtAfter(LocalDateTime.of(2024,1,1,0,0,0));
+//		System.out.println(entities);
+		Pageable pageable = PageRequest.of(0, 2, Sort.by("title"));
+
+		List<ProductEntity> entities = productRepository.findByTitleContainingIgnoreCase("Pepsi", pageable);
 		System.out.println(entities);
 	}
 
